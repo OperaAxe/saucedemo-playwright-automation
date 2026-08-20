@@ -51,3 +51,11 @@ The rendered product page exposes:
 - Header links for My Account/Log Out, My Cart, and Check Out
 
 The storefront uses a simple Shopify product form rather than SauceDemo inventory controls.
+
+## Local test-run observations
+
+The live cart page renders the empty message as `It appears that your cart is currently empty! Continue Shopping.` rather than containing the exact phrase `Your cart is empty`. The login page screenshot confirms the customer form is rendered with visible Email Address, Password, and SIGN IN controls. Several failures also showed intermittent `ERR_CONNECTION_CLOSED` responses during repeated live navigation, so the suite should use explicit retries for transient storefront network errors where appropriate.
+
+## Connection-verification limitation during repeated headless runs
+
+After several rapid live requests, the storefront returned a full-page interstitial reading `Your connection needs to be verified before you can proceed`. This affected catalog, login, cart, checkout, and UI tests in the repeated suite run. The first targeted run passed all non-authenticated tests except two selector issues, which were fixed; the later full run encountered the storefront interstitial broadly. This is an external anti-automation/network condition, not a selector assertion failure.

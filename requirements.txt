@@ -1,0 +1,13 @@
+# Browser automation and test runner
+playwright>=1.50.0
+pytest>=8.0.0
+pytest-playwright>=0.6.0
+
+# Reporting and parallel execution
+pytest-html>=4.1.1
+pytest-xdist>=3.6.1
+allure-pytest>=2.13.5
+
+# Configuration and test-data helpers
+python-dotenv>=1.0.1
+faker>=25.0.0

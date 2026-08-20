@@ -72,11 +72,13 @@ class InventoryPage(BasePage):
         """Open a product by accessible link text."""
         self.page.get_by_role("link", name=name, exact=False).first.click()
         self.page.wait_for_load_state("domcontentloaded")
+        self.ensure_storefront_available()
 
     def open_product_by_href(self, href: str) -> None:
         """Open a product by its Shopify path."""
         self.page.locator(f"a[href='{href}']").first.click()
         self.page.wait_for_load_state("domcontentloaded")
+        self.ensure_storefront_available()
 
     def expect_loaded(self) -> None:
         """Assert that the collection heading and at least one product are visible."""

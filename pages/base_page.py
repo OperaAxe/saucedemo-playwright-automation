@@ -5,6 +5,7 @@ from __future__ import annotations
 import time
 from urllib.parse import urljoin
 
+import pytest
 from playwright.sync_api import Error as PlaywrightError
 from playwright.sync_api import Page, expect
 
@@ -27,6 +28,7 @@ class BasePage:
         for attempt in range(2):
             try:
                 self.page.goto(self.url_for(path), wait_until="domcontentloaded", timeout=60000)
+                self.ensure_storefront_available()
                 return
             except PlaywrightError as error:
                 last_error = error
@@ -35,20 +37,29 @@ class BasePage:
         if last_error is not None:
             raise last_error
 
+    def ensure_storefront_available(self) -> None:
+        """Skip the test when Shopify serves its connection-verification interstitial."""
+        body = self.page.locator("body").inner_text(timeout=5000).lower()
+        if "your connection needs to be verified before you can proceed" in body:
+            pytest.skip("Shopify connection-verification interstitial blocked this browser run")
+
     def open_home(self) -> None:
         """Open the storefront home page from the shared header."""
         self.page.locator("a[href='/'], a[href='./']").first.click()
         self.page.wait_for_load_state("domcontentloaded")
+        self.ensure_storefront_available()
 
     def open_catalog(self) -> None:
         """Open the all-products collection."""
         self.page.locator("a[href='/collections/all']").first.click()
         self.page.wait_for_load_state("domcontentloaded")
+        self.ensure_storefront_available()
 
     def open_cart(self) -> None:
         """Open the Shopify cart page."""
         self.page.locator("a[href='/cart']").first.click()
         self.page.wait_for_load_state("domcontentloaded")
+        self.ensure_storefront_available()
 
     def is_authenticated(self) -> bool:
         """Return whether the header exposes the customer logout link."""

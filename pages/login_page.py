@@ -31,16 +31,19 @@ class LoginPage(BasePage):
         self.page.locator(self.password_input).fill(password)
         self.page.locator(self.submit_button).last.click()
         self.page.wait_for_load_state("domcontentloaded")
+        self.ensure_storefront_available()
 
     def open_registration(self) -> None:
         """Open the customer registration page."""
         self.page.locator(self.register_link).first.click()
         self.page.wait_for_load_state("domcontentloaded")
+        self.ensure_storefront_available()
 
     def logout(self) -> None:
         """Log out through the shared header when the customer is authenticated."""
         self.page.locator(self.logout_link).click()
         self.page.wait_for_load_state("domcontentloaded")
+        self.ensure_storefront_available()
 
     def expect_login_form(self) -> None:
         """Assert that the login page exposes its required controls."""

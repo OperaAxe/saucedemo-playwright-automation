@@ -3,6 +3,8 @@
 import pytest
 from playwright.sync_api import expect
 
+from pages.base_page import BasePage
+
 
 @pytest.mark.ui
 
@@ -21,6 +23,7 @@ def test_catalog_navigation_from_home(page, base_url):
     page.goto(base_url, wait_until="domcontentloaded")
     page.get_by_role("link", name="Catalog", exact=True).first.click()
     page.wait_for_load_state("domcontentloaded")
+    BasePage(page, base_url).ensure_storefront_available()
     expect(page).to_have_url(f"{base_url.rstrip('/')}/collections/all")
     expect(page.get_by_role("heading", name="Products", exact=True)).to_be_visible()
 
@@ -42,5 +45,6 @@ def test_about_us_navigation(page, base_url):
     page.goto(base_url, wait_until="domcontentloaded")
     page.get_by_role("link", name="About Us", exact=True).first.click()
     page.wait_for_load_state("domcontentloaded")
+    BasePage(page, base_url).ensure_storefront_available()
     assert "/pages/about-us" in page.url
     expect(page.locator("body")).to_contain_text("About Us")

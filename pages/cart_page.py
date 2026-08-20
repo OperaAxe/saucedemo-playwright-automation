@@ -16,7 +16,7 @@ class CartPage(BasePage):
     product_links = "#cart a[href*='/products/'], a[href*='/cart'] + a[href*='/products/']"
     quantity_inputs = "#cart input[name='updates[]'], #cart input[id^='updates_'], input[name^='updates']"
     remove_links = "#cart a[href*='/cart/change'], #cart a[href*='remove']"
-    checkout_link = "#cart a.checkout, a[href='/checkout'], a.checkout"
+    checkout_link = "#cart a[href='/checkout'], #cart input#checkout"
     total_selectors = ".total, .subtotal, #cart-subtotal, [class*='subtotal']"
 
     def goto(self, path: str = "/cart") -> None:

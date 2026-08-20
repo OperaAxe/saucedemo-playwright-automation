@@ -11,7 +11,7 @@ def test_home_page_navigation_links(page, base_url):
     page.goto(base_url, wait_until="domcontentloaded")
     expect(page.get_by_role("link", name="Catalog", exact=True)).to_have_attribute("href", "/collections/all")
     expect(page.get_by_role("link", name="About Us", exact=True).first).to_be_visible()
-    expect(page.locator("a[href='/cart']").first).to_be_visible()
+    expect(page.locator("a[href='/cart']:visible").first).to_be_visible()
 
 
 @pytest.mark.ui

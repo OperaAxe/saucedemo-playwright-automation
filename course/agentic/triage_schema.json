@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agentic Testing Finding",
+  "type": "object",
+  "required": [
+    "goal",
+    "observations",
+    "failures",
+    "evidence",
+    "confidence",
+    "needs_human_review"
+  ],
+  "properties": {
+    "goal": {"type": "string"},
+    "observations": {
+      "type": "array",
+      "items": {"type": "object"}
+    },
+    "failures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["summary", "evidence"],
+        "properties": {
+          "summary": {"type": "string"},
+          "evidence": {"type": "array", "items": {"type": "string"}},
+          "possible_cause": {"type": "string"},
+          "recommended_action": {"type": "string"}
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "needs_human_review": {"type": "boolean"}
+  }
+}

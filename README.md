@@ -116,3 +116,18 @@ The live storefront is a Shopify theme with customer-account pages, collection p
 ## License
 
 This project is provided for educational and portfolio use. The Sauce Demo storefront and its assets remain the property of their respective owners.
+
+
+## Complete Playwright course
+
+This repository now includes a from-scratch course that takes you from Python foundations to agentic testing:
+
+- [`PLAYWRIGHT_PYTHON_AGENTIC_TESTING_TEXTBOOK.md`](PLAYWRIGHT_PYTHON_AGENTIC_TESTING_TEXTBOOK.md) — the standalone textbook.
+- [`course/README.md`](course/README.md) — the hands-on curriculum and navigation map.
+- [`course/modules/`](course/modules/) — 13 sequential modules with lessons, exercises, solutions, and checkpoints.
+- [`course/labs/`](course/labs/) — runnable Python and browser-lab exercises.
+- [`course/agentic/`](course/agentic/) — safe agent policy, exploration prompt, and structured output schema.
+- [`course/projects/capstone-review-template.md`](course/projects/capstone-review-template.md) — final review checklist.
+- [`course-research-notes.md`](course-research-notes.md) — verified official references used to design the course.
+
+The course distinguishes deterministic Playwright proof from AI-assisted exploration. Agents may propose scenarios, inspect artifacts, and help triage failures, but they must not autonomously enter payment details, submit orders, expose secrets, modify production data, or push unreviewed code.

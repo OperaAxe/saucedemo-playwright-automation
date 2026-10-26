@@ -1,5 +1,8 @@
 # Sauce Demo Shopify Playwright Automation
 
+> **Playbook status: in progress.** I'm using this repository to work through real browser-testing questions on the public Shopify demo storefront. The suite and course are still being developed; I keep coverage and known limits visible rather than calling the project finished.
+
+
 A maintainable end-to-end test suite for the current [Sauce Demo Shopify storefront](https://sauce-demo.myshopify.com/), built with Python, Playwright, pytest, and the Page Object Model.
 
 > This repository targets the Shopify storefront at `sauce-demo.myshopify.com`. It does not target the separate classic SauceDemo application at `saucedemo.com`, so the classic `standard_user / secret_sauce` accounts and inventory selectors are intentionally not used here.
@@ -117,6 +120,10 @@ The live storefront is a Shopify theme with customer-account pages, collection p
 
 This project is provided for educational and portfolio use. The Sauce Demo storefront and its assets remain the property of their respective owners.
 
+
+## The playbook is still growing
+
+I keep the manual question beside the automation that checks it. One example is adding two products, removing one, and checking that the other remains in the cart. This repository targets the Shopify demo storefront at `sauce-demo.myshopify.com`; it is not the separate classic SauceDemo app. The live storefront may change or show an external verification page, so a failed run needs triage before I call it a product defect.
 
 ## Complete Playwright course
 

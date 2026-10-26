@@ -22,7 +22,23 @@ Requires Python 3.11 or newer.
 
 ```bash
 python -m venv .venv
+```
+
+Activate the environment in Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+On macOS or Linux:
+
+```bash
 source .venv/bin/activate
+```
+
+Install dependencies and run the tests:
+
+```bash
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 python -m playwright install chromium
@@ -59,6 +75,10 @@ pytest --html=reports/report.html --self-contained-html
 ```
 
 GitHub Actions runs the safe suite on pushes and pull requests. Authenticated tests need `SHOPIFY_TEST_EMAIL` and `SHOPIFY_TEST_PASSWORD` repository secrets to run. If the storefront displays Shopify's connection-verification interstitial, the affected test may be skipped with a reason rather than reported as a selector defect.
+
+## Manual testing notes
+
+[`docs/manual-test-walkthrough.md`](docs/manual-test-walkthrough.md) covers a manual pass through the collection page, product details, cart updates, responsive layout, safe checkout boundary, and the evidence worth saving. These notes support exploratory testing; they are not extra automated coverage.
 
 ## Playwright course
 

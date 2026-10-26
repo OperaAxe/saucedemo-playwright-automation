@@ -1,79 +1,35 @@
-# Sauce Demo Shopify Playwright Automation
+# Sauce Demo Shopify — Playwright + Python
 
-> **Playbook status: in progress.** I'm using this repository to work through real browser-testing questions on the public Shopify demo storefront. The suite and course are still being developed; I keep coverage and known limits visible rather than calling the project finished.
+[![CI](https://github.com/OperaAxe/saucedemo-playwright-automation/actions/workflows/playwright.yml/badge.svg)](https://github.com/OperaAxe/saucedemo-playwright-automation/actions/workflows/playwright.yml)
 
+This repository contains browser tests for the [Sauce Demo Shopify storefront](https://sauce-demo.myshopify.com/) and a separate hands-on Playwright course. The suite is still being developed.
 
-A maintainable end-to-end test suite for the current [Sauce Demo Shopify storefront](https://sauce-demo.myshopify.com/), built with Python, Playwright, pytest, and the Page Object Model.
-
-> This repository targets the Shopify storefront at `sauce-demo.myshopify.com`. It does not target the separate classic SauceDemo application at `saucedemo.com`, so the classic `standard_user / secret_sauce` accounts and inventory selectors are intentionally not used here.
+**Site distinction:** the target is `sauce-demo.myshopify.com`, not the classic [SauceDemo application](https://www.saucedemo.com/). The two sites have different pages, accounts, and selectors.
 
 ## What the suite covers
 
-The suite validates the behavior that exists on the current storefront. It checks customer login and registration entry points, catalog rendering, product detail pages, sold-out product representation, add-to-cart behavior, cart quantities and removal, checkout-boundary navigation, shared navigation, and responsive layouts.
+- Customer login and registration entry points
+- Product catalogue, detail pages, and sold-out states
+- Cart contents, quantities, totals, and removal
+- Navigation and responsive layout checks
+- Safe navigation to the checkout boundary
 
-Checkout tests deliberately stop at the Shopify checkout boundary. They do not fill payment fields, submit an order, or create a financial transaction.
+Tests stop before payment details are entered or an order is submitted. Authenticated tests are skipped unless the required test-account credentials are supplied through environment variables.
 
-| Area | Coverage |
-|---|---|
-| Customer account | Login form, invalid login rejection, registration form, optional authenticated login, logout |
-| Catalog | Product count, product names and prices, unique product links, product detail navigation, sold-out state |
-| Cart | Empty state, one product, multiple products, quantities, removal, totals |
-| Checkout | Empty-cart checkout behavior and safe cart-to-checkout boundary |
-| UI/UX | Header navigation, catalog routing, mobile/tablet overflow, About Us navigation |
+## Run locally
 
-## Project structure
-
-```text
-saucedemo-playwright-automation/
-├── .github/workflows/playwright.yml
-├── docs/superpowers/specs/2026-08-20-saucedemo-shopify-automation-design.md
-├── pages/
-│   ├── __init__.py
-│   ├── base_page.py
-│   ├── login_page.py
-│   ├── inventory_page.py
-│   ├── product_page.py
-│   ├── cart_page.py
-│   ├── checkout_page.py
-│   └── order_confirmation_page.py
-├── tests/
-│   ├── __init__.py
-│   ├── conftest.py
-│   ├── test_login.py
-│   ├── test_inventory.py
-│   ├── test_cart.py
-│   ├── test_checkout.py
-│   └── test_ui_ux.py
-├── utils/
-│   ├── __init__.py
-│   └── test_data.py
-├── requirements.txt
-├── pytest.ini
-└── .gitignore
-```
-
-## Local setup
-
-Use Python 3.11 or newer. Create and activate a virtual environment, install the dependencies, and install the Chromium browser used by the tests:
+Requires Python 3.11 or newer.
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate       # macOS/Linux
-# .venv\Scripts\activate      # Windows PowerShell
+source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 python -m playwright install chromium
-```
-
-## Run the tests
-
-The default command runs the complete safe suite. Authenticated tests are skipped unless both credential environment variables are present.
-
-```bash
 pytest
 ```
 
-Useful focused commands are:
+Useful selections:
 
 ```bash
 pytest tests/test_inventory.py -v
@@ -83,7 +39,7 @@ pytest -m "not authenticated" -v
 pytest -m authenticated -v
 ```
 
-To run with the created Shopify customer account locally, provide the credentials through environment variables rather than committing them to the repository:
+To run the authenticated cases, provide the credentials through environment variables rather than committing them:
 
 ```bash
 export SHOPIFY_TEST_EMAIL="your-test-email@example.com"
@@ -91,50 +47,31 @@ export SHOPIFY_TEST_PASSWORD="your-test-password"
 pytest -m authenticated -v
 ```
 
-The base URL can also be overridden for a compatible staging environment:
+On Windows PowerShell, use `$env:SHOPIFY_TEST_EMAIL` and `$env:SHOPIFY_TEST_PASSWORD` to set those variables for the current session.
+
+## Reports and CI
+
+Playwright traces are retained on failure and screenshots are saved under `test-results/`. An HTML report can be generated with:
 
 ```bash
-export BASE_URL="https://sauce-demo.myshopify.com/"
-pytest -v
-```
-
-## Reports and debugging
-
-Pytest is configured to retain Playwright traces on failure and capture screenshots into `test-results/`. HTML reports can be generated with:
-
-```bash
+mkdir -p reports
 pytest --html=reports/report.html --self-contained-html
 ```
 
-The artifact directories are ignored by Git so test output is not accidentally committed. If Shopify presents the full-page `Your connection needs to be verified before you can proceed` interstitial, the page fixture skips that test with an explicit reason rather than reporting a misleading selector failure. This protects CI results from transient external anti-automation conditions.
+GitHub Actions runs the safe suite on pushes and pull requests. Authenticated tests need `SHOPIFY_TEST_EMAIL` and `SHOPIFY_TEST_PASSWORD` repository secrets to run. If the storefront displays Shopify's connection-verification interstitial, the affected test may be skipped with a reason rather than reported as a selector defect.
 
-## Continuous integration
+## Playwright course
 
-GitHub Actions runs the safe suite on every push to `main` and every pull request targeting `main`. The workflow installs Python dependencies and Chromium, runs the tests, and uploads reports and failure artifacts. Authenticated tests run only when the repository has `SHOPIFY_TEST_EMAIL` and `SHOPIFY_TEST_PASSWORD` Actions secrets configured.
+The repository also includes a course with lessons, exercises, solutions, checkpoints, and browser labs:
 
-## Design notes
+- [Textbook](PLAYWRIGHT_PYTHON_AGENTIC_TESTING_TEXTBOOK.md)
+- [Course overview](course/README.md)
+- [Modules](course/modules/)
+- [Labs](course/labs/)
+- [Agentic testing exercises](course/agentic/)
+- [Capstone review template](course/projects/capstone-review-template.md)
+- [Research notes](course-research-notes.md)
 
-The live storefront is a Shopify theme with customer-account pages, collection pages, product forms, and Shopify cart/checkout routes. It is not the classic SauceDemo application. The design record in `docs/superpowers/specs/` documents this decision and the selector strategy.
+## Scope and status
 
-## License
-
-This project is provided for educational and portfolio use. The Sauce Demo storefront and its assets remain the property of their respective owners.
-
-
-## The playbook is still growing
-
-I keep the manual question beside the automation that checks it. One example is adding two products, removing one, and checking that the other remains in the cart. This repository targets the Shopify demo storefront at `sauce-demo.myshopify.com`; it is not the separate classic SauceDemo app. The live storefront may change or show an external verification page, so a failed run needs triage before I call it a product defect.
-
-## Complete Playwright course
-
-This repository now includes a from-scratch course that takes you from Python foundations to agentic testing:
-
-- [`PLAYWRIGHT_PYTHON_AGENTIC_TESTING_TEXTBOOK.md`](PLAYWRIGHT_PYTHON_AGENTIC_TESTING_TEXTBOOK.md) — the standalone textbook.
-- [`course/README.md`](course/README.md) — the hands-on curriculum and navigation map.
-- [`course/modules/`](course/modules/) — 13 sequential modules with lessons, exercises, solutions, and checkpoints.
-- [`course/labs/`](course/labs/) — runnable Python and browser-lab exercises.
-- [`course/agentic/`](course/agentic/) — safe agent policy, exploration prompt, and structured output schema.
-- [`course/projects/capstone-review-template.md`](course/projects/capstone-review-template.md) — final review checklist.
-- [`course-research-notes.md`](course-research-notes.md) — verified official references used to design the course.
-
-The course distinguishes deterministic Playwright proof from AI-assisted exploration. Agents may propose scenarios, inspect artifacts, and help triage failures, but they must not autonomously enter payment details, submit orders, expose secrets, modify production data, or push unreviewed code.
+This is an educational project against a public demo storefront, not a client system. The site may change or block automated traffic, so a failed or skipped run needs to be interpreted in context. Payment submission and real transactions are outside the test scope.

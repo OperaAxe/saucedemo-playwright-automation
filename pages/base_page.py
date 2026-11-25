@@ -27,7 +27,7 @@ class BasePage:
         last_error: PlaywrightError | None = None
         for attempt in range(2):
             try:
-                self.page.goto(self.url_for(path), wait_until="domcontentloaded", timeout=60000)
+                self.page.goto(self.url_for(path), wait_until="domcontentloaded", timeout=30000)
                 self.ensure_storefront_available()
                 return
             except PlaywrightError as error:

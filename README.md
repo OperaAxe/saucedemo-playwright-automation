@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/OperaAxe/saucedemo-playwright-automation/actions/workflows/playwright.yml/badge.svg)](https://github.com/OperaAxe/saucedemo-playwright-automation/actions/workflows/playwright.yml)
 
-This repository contains browser tests for the [Sauce Demo Shopify storefront](https://sauce-demo.myshopify.com/) and a separate hands-on Playwright course. The suite is still being developed.
+This repository contains browser tests for the [Sauce Demo Shopify storefront](https://sauce-demo.myshopify.com/), built with Playwright, Python and pytest using the page object pattern. The suite is still being developed.
 
 **Site distinction:** the target is `sauce-demo.myshopify.com`, not the classic [SauceDemo application](https://www.saucedemo.com/). The two sites have different pages, accounts, and selectors.
 
@@ -79,18 +79,6 @@ GitHub Actions runs the safe suite on pushes and pull requests. Authenticated te
 ## Manual testing notes
 
 [`docs/manual-test-walkthrough.md`](docs/manual-test-walkthrough.md) covers a manual pass through the collection page, product details, cart updates, responsive layout, safe checkout boundary, and the evidence worth saving. These notes support exploratory testing; they are not extra automated coverage.
-
-## Playwright course
-
-The repository also includes a course with lessons, exercises, solutions, checkpoints, and browser labs:
-
-- [Textbook](PLAYWRIGHT_PYTHON_AGENTIC_TESTING_TEXTBOOK.md)
-- [Course overview](course/README.md)
-- [Modules](course/modules/)
-- [Labs](course/labs/)
-- [Agentic testing exercises](course/agentic/)
-- [Capstone review template](course/projects/capstone-review-template.md)
-- [Research notes](course-research-notes.md)
 
 ## Scope and status
 

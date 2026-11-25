@@ -32,6 +32,9 @@ def customer() -> CustomerCredentials:
 def page(context: BrowserContext):
     """Create a page and skip cleanly when Shopify blocks the test connection."""
     page = context.new_page()
+    # Keep a slow or blocked storefront from hanging the whole run.
+    page.set_default_timeout(15000)
+    page.set_default_navigation_timeout(30000)
     original_goto = page.goto
 
     def guarded_goto(*args, **kwargs):
